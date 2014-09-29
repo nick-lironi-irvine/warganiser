@@ -1,0 +1,21 @@
+{
+  "name": "warganiser",
+  "version": "0.0.1",
+  "description": "The Warganiser for Warhammer tournament management",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://nick-lironi-irvine@github.com/nick-lironi-irvine/warganiser.git"
+  },
+  "author": "",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/nick-lironi-irvine/warganiser/issues"
+  },
+  "homepage": "https://github.com/nick-lironi-irvine/warganiser",
+  "devDependencies": {
+    "bower": "^1.3.12"
+  }
+}
