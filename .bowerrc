@@ -1,4 +1,4 @@
 {
-  "directory": "app/bower_components",
+  "directory": "org.warganiser.client/src/main/webapp/bower_components",
   "interactive": false
 }

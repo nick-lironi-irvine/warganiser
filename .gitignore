@@ -1,0 +1,3 @@
+node_modules/.bin/bower
+node_modules/
+org.warganiser.client/src/main/webapp/bower_components/
