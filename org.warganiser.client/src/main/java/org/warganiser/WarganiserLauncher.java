@@ -1,20 +1,12 @@
 package org.warganiser;
 
-import java.io.File;
-import java.net.URL;
-
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.*;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
- * 
  * This class launches the web application in an embedded Jetty container.
- * This is the entry point to your application. The Java command that is used for
- * launching should fire this main method.
- *
  */
-public class Main {
+public class WarganiserLauncher {
     
     /**
      * @param args
