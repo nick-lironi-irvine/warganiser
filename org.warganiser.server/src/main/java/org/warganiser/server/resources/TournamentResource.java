@@ -1,30 +1,30 @@
 package org.warganiser.server.resources;
 
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.warganiser.server.core.TournamentManager;
+import org.warganiser.server.core.Tournament;
+import org.warganiser.server.core.TournamentService;
 
 import com.google.inject.Inject;
 
-@Path("/tournament")
+@Path("/tournament/{name}")
 public class TournamentResource {
 	
-	private final TournamentManager manager;
+	private final TournamentService tournamentService;
 	
 	@Inject
-	public TournamentResource(TournamentManager manager) {
-		this.manager = manager;
+	public TournamentResource(TournamentService service) {
+		this.tournamentService = service;
 	}
 	
-	@GET
+	@POST
 	@Produces("application/json")
-	public String retrieve() {
-		return "foo";
+	public Tournament create(@PathParam("name") String name) {
+		return tournamentService.createTournament(name);
 	}
 	
 }

@@ -4,7 +4,7 @@ package org.warganiser.server.servlet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.warganiser.server.core.WarganiserModule;
+import org.warganiser.server.core.impl.WarganiserModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
