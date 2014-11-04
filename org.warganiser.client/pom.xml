@@ -54,7 +54,7 @@
                     <assembleDirectory>target</assembleDirectory> 
                     <programs>
                         <program>
-                            <mainClass>org.warganiser.Main</mainClass>
+                            <mainClass>org.warganiser.client.Main</mainClass>
                             <name>webapp</name>
                         </program>
                     </programs>
