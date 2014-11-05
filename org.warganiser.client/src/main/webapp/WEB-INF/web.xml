@@ -14,6 +14,28 @@
 	    </init-param>
 	    <load-on-startup>0</load-on-startup>
 	</servlet>
+	
+    <servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>org.eclipse.jetty.proxy.ProxyServlet$Transparent</servlet-class>
+        <init-param>
+            <param-name>proxyTo</param-name>
+            <param-value>http://localhost:8180/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>prefix</param-name>
+            <param-value>/service</param-value>
+        </init-param>
+
+        <load-on-startup>0</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+	
+	<servlet-mapping>
+		<servlet-name>proxy</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
+	
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
