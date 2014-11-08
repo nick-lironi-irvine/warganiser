@@ -1,5 +1,9 @@
 package org.warganiser.server;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -10,6 +14,13 @@ import com.google.inject.servlet.GuiceFilter;
 public class WarganiserServerLauncher {
 
 	public static void main(String[] args) throws Exception{
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.warganiser");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		
         //The port that we should run on can be set into an environment variable
         //Look for that variable and default to 8180 if it isn't there.
         String webPort = System.getenv("WARGANISER_SERVER_PORT");
@@ -37,7 +48,7 @@ public class WarganiserServerLauncher {
         // Start the server
         server.start();
         // Wait for server to shutdown
-        server.join(); 
+        server.join();
     }
 
 }

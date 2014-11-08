@@ -1,0 +1,47 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+        version="2.0">
+    <persistence-unit name="org.warganiser">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<properties>
+		
+			<!-- Database connection settings -->
+			<property name="javax.persistence.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+			<property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+			<property name="javax.persistence.connection.url" value="jdbc:derby:warganiserDB;create=true"/>
+			<property name="hibernate.connection.url" value="jdbc:derby:warganiserDB;create=true"/>
+			<property name="javax.persistence.connection.username" value="application"/>
+			<property name="hibernate.connection.username" value="application"/>
+			<property name="javax.persistence.connection.password" value="password"/>
+			<property name="hibernate.connection.password" value="password"/>
+			 
+			<property name="hibernate.default_schema" value="warganiser"/>
+			
+			<!-- JDBC connection pool (use the built-in) -->
+			<property name="javax.persistence.connection.pool_size" value="5"/>
+			<property name="hibernate.connection.pool_size" value="5"/>
+
+			<!-- SQL dialect -->
+			<property name="javax.persistence.dialect" value="org.hibernate.dialect.DerbyDialect"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>
+			
+			<!-- Enable Hibernate's automatic session context management -->
+			<property name="javax.persistence.current_session_context_class" value="thread"/>
+			<property name="hibernate.current_session_context_class" value="thread"/>
+			
+			<!-- Disable the second-level cache -->
+			<property name="javax.persistence.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+			
+			<!-- Echo all executed SQL to stdout -->
+			<property name="javax.persistence.show_sql" value="true"/>
+			<property name="hibernate.show_sql" value="true"/>
+			
+			<!-- Only validate the database schema on startup, don't mess with it -->
+			<property name="javax.persistence.hbm2ddl.auto" value="validate"/>
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+		
+		</properties>
+    </persistence-unit>
+</persistence>
