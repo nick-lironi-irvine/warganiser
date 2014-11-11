@@ -12,6 +12,7 @@
         <jersey-version>1.7</jersey-version>
         <jetty.version>9.3.0.M0</jetty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <guice-version>3.0</guice-version>
     </properties>
 
     <dependencies>
@@ -46,7 +47,12 @@
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>3.0</version>
+			<version>${guice-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-persist</artifactId>
+			<version>${guice-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
