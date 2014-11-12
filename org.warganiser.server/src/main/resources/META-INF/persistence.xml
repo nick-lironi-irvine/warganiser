@@ -45,7 +45,7 @@
 			
 			<!-- Only validate the database schema on startup, don't mess with it -->
 			<property name="javax.persistence.hbm2ddl.auto" value="validate"/>
-			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+			<property name="hibernate.hbm2ddl.auto" value="create"/>
 		
 		</properties>
     </persistence-unit>

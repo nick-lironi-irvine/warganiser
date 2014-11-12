@@ -7,6 +7,6 @@ import com.google.inject.AbstractModule;
 public class WarganiserModule extends AbstractModule {
 	@Override
 	public void configure() {
-		bind(TournamentService.class).to(TournamentServiceImpl.class).asEagerSingleton();
+		bind(TournamentService.class).to(TournamentServiceImpl.class);
 	}
 }
