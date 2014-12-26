@@ -1,5 +1,7 @@
 package org.warganiser.server.core.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.warganiser.server.core.Tournament;
@@ -8,7 +10,8 @@ import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 
 /**
- * Responsible for the interaction with the persistence store for {@link Tournament} entities. 
+ * Responsible for the interaction with the persistence store for
+ * {@link Tournament} entities.
  */
 public class TournamentDAO {
 
@@ -24,6 +27,10 @@ public class TournamentDAO {
 		Tournament tournament = new Tournament(name);
 		em.persist(tournament);
 		return tournament;
+	}
+
+	public List<Tournament> listTournaments() {
+		return em.createQuery("from Tournament", Tournament.class).getResultList();
 	}
 
 }

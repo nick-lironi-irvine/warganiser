@@ -3,12 +3,13 @@ package org.warganiser.server.core.dao;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -37,6 +38,7 @@ public class TournamentDAOIntegrationTest {
 		 */
 		Properties properties = new Properties();
 		properties.put("hibernate.connection.url", "jdbc:derby:memory:warganiserTestDB;create=true");
+		properties.put("hibernate.hbm2ddl.auto", "create");
 		Module testPersistenceProperties = new JpaPersistModule("org.warganiser").properties(properties);
 		injector = Guice.createInjector(testPersistenceProperties);
 		persistService = injector.getInstance(PersistService.class);
@@ -77,12 +79,18 @@ public class TournamentDAOIntegrationTest {
 		assertThat(createdTournament.getName(), is(equalTo(tournamentName)));
 	}
 
-	@Test(expected = PersistenceException.class)
-	public void testTournamentNamesAreUnique() {
+	@Test
+	public void testListTournaments() {
 		String tournamentName = "My Tournament Name";
-		Tournament firstTournament = daoUnderTest.createTournament(tournamentName);
-		assertThat(firstTournament, is(notNullValue()));
+		String tournamentName2 = tournamentName + "2";
+		Tournament createdTournament = daoUnderTest.createTournament(tournamentName);
+		assertThat(createdTournament, is(notNullValue()));
+		Tournament createdTournament2 = daoUnderTest.createTournament(tournamentName2);
+		assertThat(createdTournament2, is(notNullValue()));
 
-		daoUnderTest.createTournament(tournamentName);
+		List<Tournament> tournaments = daoUnderTest.listTournaments();
+		assertThat(tournaments, is(notNullValue()));
+		assertThat(tournaments.size(), equalTo(2));
+		assertThat(tournaments, contains(createdTournament, createdTournament2));
 	}
 }

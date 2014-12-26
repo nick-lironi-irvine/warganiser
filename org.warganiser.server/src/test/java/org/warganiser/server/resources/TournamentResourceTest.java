@@ -2,10 +2,14 @@ package org.warganiser.server.resources;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +39,7 @@ public class TournamentResourceTest {
 	public void testCreateReturnsCreatedTournament() {
 		String name = "Test Name";
 
-		when(mockTournamentService.createTournament(anyString())).thenReturn(
-				mockTournament);
+		when(mockTournamentService.createTournament(anyString())).thenReturn(mockTournament);
 
 		TournamentDto createdTournament = resourceUnderTest.create(name);
 		assertThat(createdTournament, is(notNullValue()));
@@ -44,4 +47,21 @@ public class TournamentResourceTest {
 		verify(mockTournamentService).createTournament(name);
 	}
 
+	@Test
+	public void testListTournaments() {
+		List<Tournament> tournaments = new ArrayList<>();
+		tournaments.add(mockTournament);
+		when(mockTournamentService.listTournaments()).thenReturn(tournaments);
+
+		List<TournamentDto> result = resourceUnderTest.list();
+		assertThat(result.size(), equalTo(1));
+	}
+
+	@Test
+	public void testListTournamentsWithEmptyResult() {
+		when(mockTournamentService.listTournaments()).thenReturn(new ArrayList<Tournament>());
+
+		List<TournamentDto> result = resourceUnderTest.list();
+		assertThat(result.size(), equalTo(0));
+	}
 }

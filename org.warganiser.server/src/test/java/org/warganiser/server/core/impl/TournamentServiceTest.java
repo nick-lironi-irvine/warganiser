@@ -7,6 +7,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +22,7 @@ import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.core.dao.TournamentDAO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TournamentServiceImplTest {
+public class TournamentServiceTest {
 
 	private TournamentService serviceUnderTest;
 	@Mock
@@ -46,4 +49,11 @@ public class TournamentServiceImplTest {
 		assertThat(createdTournament.getName(), is(equalTo(name)));
 	}
 
+	@Test
+	public void testlistTournament() {
+		when(mockDAO.listTournaments()).thenReturn(Collections.singletonList(mockTournament));
+		List<Tournament> createdTournaments = serviceUnderTest.listTournaments();
+		assertThat(createdTournaments, is(notNullValue()));
+		assertThat(createdTournaments.size(), is(equalTo(1)));
+	}
 }

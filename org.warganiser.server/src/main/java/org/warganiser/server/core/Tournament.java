@@ -4,10 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Tournament", uniqueConstraints = @UniqueConstraint(name = "uniqueName", columnNames = { "name" }))
+@Table(name = "Tournament")
 public class Tournament {
 
 	@Id
@@ -16,8 +15,13 @@ public class Tournament {
 
 	private String name;
 
+	public Tournament() {
+		// Default for Hibernate
+		super();
+	}
+
 	public Tournament(String name) {
-		setName(name);
+		this.name = name;
 	}
 
 	public Long getId() {

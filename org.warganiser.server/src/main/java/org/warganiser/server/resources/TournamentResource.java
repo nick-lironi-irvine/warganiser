@@ -1,11 +1,16 @@
 package org.warganiser.server.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.warganiser.server.core.Tournament;
 import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.resources.dto.TournamentDto;
 
@@ -18,7 +23,7 @@ public class TournamentResource {
 
 	@Inject
 	public TournamentResource(TournamentService service) {
-		this.tournamentService = service;
+		tournamentService = service;
 	}
 
 	@POST
@@ -26,6 +31,17 @@ public class TournamentResource {
 	@Produces("application/json")
 	public TournamentDto create(@FormParam("name") String name) {
 		return new TournamentDto(tournamentService.createTournament(name));
+	}
+
+	@GET
+	@Produces("application/json")
+	public List<TournamentDto> list() {
+		List<Tournament> tournaments = tournamentService.listTournaments();
+		List<TournamentDto> result = new ArrayList<>(4 / 3 * tournaments.size());
+		for (Tournament tournament : tournaments) {
+			result.add(new TournamentDto(tournament));
+		}
+		return result;
 	}
 
 }

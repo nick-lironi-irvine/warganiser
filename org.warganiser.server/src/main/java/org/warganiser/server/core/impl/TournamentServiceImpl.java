@@ -1,5 +1,7 @@
 package org.warganiser.server.core.impl;
 
+import java.util.List;
+
 import org.warganiser.server.core.Tournament;
 import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.core.dao.TournamentDAO;
@@ -18,6 +20,11 @@ public class TournamentServiceImpl implements TournamentService {
 	@Override
 	public Tournament createTournament(String name) {
 		return dao.createTournament(name);
+	}
+
+	@Override
+	public List<Tournament> listTournaments() {
+		return dao.listTournaments();
 	}
 
 }
