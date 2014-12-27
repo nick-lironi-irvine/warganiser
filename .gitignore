@@ -8,3 +8,5 @@ org.warganiser.client/src/main/webapp/.idea/webapp.iml
 org.warganiser.client/src/main/webapp/.idea/dictionaries/Nick.xml
 org.warganiser.server/WarganiserServerLauncher.launch
 org.warganiser.server/warganiserDB/
+org.warganiser.server/bin
+derby.log
