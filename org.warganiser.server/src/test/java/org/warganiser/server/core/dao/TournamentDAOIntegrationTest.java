@@ -15,7 +15,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.warganiser.server.core.Tournament;
 
 import com.google.inject.Guice;
@@ -29,6 +31,9 @@ public class TournamentDAOIntegrationTest {
 	private static Injector injector;
 	private static PersistService persistService;
 	private TournamentDAO daoUnderTest;
+
+	@Rule
+	ExpectedException expectedException;
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -80,7 +85,7 @@ public class TournamentDAOIntegrationTest {
 	}
 
 	@Test
-	public void testListTournaments() {
+	public void testListTournamentsReturnsAllTournaments() {
 		String tournamentName = "My Tournament Name";
 		String tournamentName2 = tournamentName + "2";
 		Tournament createdTournament = daoUnderTest.createTournament(tournamentName);
@@ -92,5 +97,13 @@ public class TournamentDAOIntegrationTest {
 		assertThat(tournaments, is(notNullValue()));
 		assertThat(tournaments.size(), equalTo(2));
 		assertThat(tournaments, contains(createdTournament, createdTournament2));
+	}
+
+	@Test
+	public void testPersistenceOfTournamentsWithDuplicateNamesIsPrevented() {
+		expectedException.expect(DuplicateNameException.class);
+		String tournamentName = "My Tournament Name";
+		daoUnderTest.createTournament(tournamentName);
+		daoUnderTest.createTournament(tournamentName);
 	}
 }

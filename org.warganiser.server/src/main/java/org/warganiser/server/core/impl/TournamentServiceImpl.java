@@ -19,6 +19,9 @@ public class TournamentServiceImpl implements TournamentService {
 
 	@Override
 	public Tournament createTournament(String name) {
+		if (name == null) {
+			throw new IllegalArgumentException("name cannot be null");
+		}
 		return dao.createTournament(name);
 	}
 
