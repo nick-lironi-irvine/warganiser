@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.warganiser.server.core.Tournament;
@@ -27,9 +27,10 @@ public class TournamentResource {
 	}
 
 	@POST
-	@Consumes("application/x-www-form-urlencoded")
+	@Consumes("application/json")
 	@Produces("application/json")
-	public TournamentDto create(@FormParam("name") String name) {
+	@Path("/{name}")
+	public TournamentDto create(@PathParam("name") String name) {
 		return new TournamentDto(tournamentService.createTournament(name));
 	}
 

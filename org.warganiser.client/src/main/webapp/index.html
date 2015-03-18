@@ -14,10 +14,11 @@
 					<label for="inputName">Name</label>
 					<input type="text" class="form-control" id="inputName" placeholder="Tournament Name" ng-model="tournament.name" required>
 				</div>
-				<button type="submit" ng-click="create(tournament)" class="btn btn-primary btn-default">Create</button>
+				<button type="button" ng-click="create(tournament)" class="btn btn-primary btn-default">Create</button>
 			</form>
-		</div>
+        </div>
 		<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
 		<script type="text/javascript" src="js/warganiser.js"></script>
 	</body>
 </html>

@@ -1,18 +1,39 @@
 'use strict';
 
 /* App Module */
-var tournamentApp = angular.module('tournamentApp', [])
-    .controller('TournamentController', ['$scope', '$http', function($scope, $http) {
-        $scope.tournament = {};
+var tournamentApp = angular.module('tournamentApp', ['ngResource']);
 
-        $scope.create = function() {
-            $http.post('service/tournament',$scope.tournament)
-                .success(function(data, status, headers, config) {
-                    alert('created tournament with name '+$scope.tournament.name);
-                }).error(function(data, status, headers, config) {
-                        debugger;
-                        alert('fail');
-                });
-        };
+/* Service for Tournaments*/
+tournamentApp.factory('tournamentService', ['$resource', function($resource) {
+
+    var tournamentService = {},
+        resource = $resource('service/tournament/:name', {name: '@name'}, {
+            create: {
+                method: 'POST'
+            }
+        });
+
+    tournamentService.create = function(tournament) {
+        return resource.create(tournament,
+            function(value, responseHeaders) {
+                //alert('created tournament with name '+value.name);
+                return value;
+            },
+            function(httpResponse) {
+                alert('fail');
+            });
+    };
+
+    return tournamentService;
+}]);
+
+/* Controller for Tournament creation screen*/
+tournamentApp.controller('TournamentController', ['$scope', 'tournamentService', function($scope, tournamentService) {
+    $scope.tournament = {};
+
+    $scope.create = function(tournament) {
+        $scope.tournament = tournamentService.create(tournament);
+    };
+
 }]);
 
