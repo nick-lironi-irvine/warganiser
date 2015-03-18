@@ -10,3 +10,6 @@ org.warganiser.server/WarganiserServerLauncher.launch
 org.warganiser.server/warganiserDB/
 org.warganiser.server/bin
 derby.log
+workspace.xml
+misc.xml
+vcs.xml
