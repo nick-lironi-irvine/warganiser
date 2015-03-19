@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface TournamentService {
 
-	public Tournament createTournament(String name);
+	public Tournament createTournament(String name) throws TournamentException;
 
 	public List<Tournament> listTournaments();
 

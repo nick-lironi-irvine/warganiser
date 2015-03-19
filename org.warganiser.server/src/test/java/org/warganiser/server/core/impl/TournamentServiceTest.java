@@ -18,6 +18,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.warganiser.server.core.Tournament;
+import org.warganiser.server.core.TournamentException;
 import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.core.dao.TournamentDAO;
 
@@ -42,7 +43,7 @@ public class TournamentServiceTest {
 	}
 
 	@Test
-	public void testCreateTournamentReturnsTournamentWithGivenName() {
+	public void testCreateTournamentReturnsTournamentWithGivenName() throws TournamentException {
 		String name = "Test Tournament";
 		Tournament createdTournament = serviceUnderTest.createTournament(name);
 		assertThat(createdTournament, is(notNullValue()));

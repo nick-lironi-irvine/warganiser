@@ -1,6 +1,7 @@
-package org.warganiser.server.core.impl;
+package org.warganiser.server.resources;
 
 import org.warganiser.server.core.TournamentService;
+import org.warganiser.server.core.impl.TournamentServiceImpl;
 
 import com.google.inject.AbstractModule;
 

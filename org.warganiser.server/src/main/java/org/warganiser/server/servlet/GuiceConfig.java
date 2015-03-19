@@ -3,7 +3,7 @@ package org.warganiser.server.servlet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.warganiser.server.core.impl.WarganiserModule;
+import org.warganiser.server.resources.WarganiserModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -25,6 +25,7 @@ public class GuiceConfig extends GuiceServletContextListener {
 
 				// Set init params for Jersey
 				Map<String, String> params = new HashMap<>();
+				// Resources and Providers must go in this package
 				params.put("com.sun.jersey.config.property.packages", "org.warganiser.server.resources");
 				params.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
 

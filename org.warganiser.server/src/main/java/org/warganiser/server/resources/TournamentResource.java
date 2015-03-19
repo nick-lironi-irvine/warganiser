@@ -9,8 +9,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response.Status;
 
 import org.warganiser.server.core.Tournament;
+import org.warganiser.server.core.TournamentException;
 import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.resources.dto.TournamentDto;
 
@@ -30,8 +32,12 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	public TournamentDto create(@PathParam("name") String name) {
-		return new TournamentDto(tournamentService.createTournament(name));
+	public TournamentDto create(@PathParam("name") String name) throws WarganiserWebException {
+		try {
+			return new TournamentDto(tournamentService.createTournament(name));
+		} catch (TournamentException e) {
+			throw new WarganiserWebException(e, Status.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GET

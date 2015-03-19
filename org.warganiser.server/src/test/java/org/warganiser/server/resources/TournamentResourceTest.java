@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.warganiser.server.core.Tournament;
+import org.warganiser.server.core.TournamentException;
 import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.resources.dto.TournamentDto;
 
@@ -36,7 +37,7 @@ public class TournamentResourceTest {
 	}
 
 	@Test
-	public void testCreateReturnsCreatedTournament() {
+	public void testCreateReturnsCreatedTournament() throws TournamentException, WarganiserWebException {
 		String name = "Test Name";
 
 		when(mockTournamentService.createTournament(anyString())).thenReturn(mockTournament);
