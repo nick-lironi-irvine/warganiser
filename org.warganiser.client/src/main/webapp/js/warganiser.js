@@ -36,7 +36,7 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
             }
         });
 
-    /* Initiates creation of a Tournament and returns a promise.*/
+    /* Initiates creation of a Tournament */
     tournamentService.create = function(tournament) {
         return resource.create(tournament,
             function(value, responseHeaders) {
@@ -44,9 +44,24 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
                 return value;
             },
             function(httpResponse) {
-                //Return the error response in the success case
+                //Return the error response in the error case
                 return httpResponse;
-            });
+            }
+        );
+    };
+
+    /* Load a tournament by name */
+    tournamentService.load = function(tournamentName) {
+        return resource.get({name: tournamentName},
+            function(value, responseHeaders) {
+                //Return the Tournament in the success case
+                return value;
+            },
+            function(httpResponse) {
+                //Return the error response in the error case
+                return httpResponse;
+            }
+        );
     };
 
     return tournamentService;

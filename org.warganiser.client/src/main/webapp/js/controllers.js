@@ -26,9 +26,9 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
 ]);
 
 /* Controller for Tournament editing screen*/
-warganiserControllers.controller('TournamentEditController', ['$scope', '$routeParams',
-    function($scope, $routeParams) {
+warganiserControllers.controller('TournamentEditController', ['$scope', '$routeParams', 'tournamentService',
+    function($scope, $routeParams, tournamentService) {
 
-        $scope.tournamentName = $routeParams.tournamentName;
+        $scope.tournament = tournamentService.load($routeParams.tournamentName);
     }
 ]);
