@@ -17,6 +17,9 @@ public class Tournament {
 	@Column(nullable = false, unique = true)
 	private String name;
 
+	@Column
+	private Integer points;
+
 	public Tournament() {
 		// Default for Hibernate
 		super();
@@ -40,6 +43,14 @@ public class Tournament {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getPoints() {
+		return points;
+	}
+
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
 }

@@ -45,6 +45,18 @@ public class TournamentServiceImpl implements TournamentService {
 	}
 
 	@Override
+	public Tournament updateTournament(Tournament tournament) throws TournamentException {
+		if (tournament == null) {
+			throw new IllegalArgumentException("tournament cannot be null");
+		}
+		try {
+			return dao.updateTournament(tournament);
+		} catch (PersistenceException e) {
+			throw new TournamentException(e, "Unable to update tournament with id '%s'", tournament.getId());
+		}
+	}
+
+	@Override
 	public List<Tournament> listTournaments() {
 		return dao.listTournaments();
 	}

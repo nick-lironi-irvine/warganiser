@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +18,7 @@ import org.warganiser.server.core.TournamentService;
 import org.warganiser.server.resources.dto.TournamentDto;
 
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 
 @Path("/tournament")
 public class TournamentResource {
@@ -32,6 +34,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
+	@Transactional
 	public TournamentDto create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			return new TournamentDto(tournamentService.createTournament(name));
@@ -47,6 +50,22 @@ public class TournamentResource {
 	public TournamentDto get(@PathParam("id") Long id) throws WarganiserWebException {
 		try {
 			return new TournamentDto(tournamentService.getTournament(id));
+		} catch (TournamentException e) {
+			throw new WarganiserWebException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PUT
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("/{id}")
+	@Transactional
+	public TournamentDto update(@PathParam("id") Long id, TournamentDto tournamentDto) throws WarganiserWebException {
+		try {
+			Tournament tournament = tournamentService.getTournament(id);
+			tournament = TournamentConverter.updateFromDto(tournament, tournamentDto);
+			Tournament updatedTournament = tournamentService.updateTournament(tournament);
+			return new TournamentDto(updatedTournament);
 		} catch (TournamentException e) {
 			throw new WarganiserWebException(e, Status.INTERNAL_SERVER_ERROR);
 		}

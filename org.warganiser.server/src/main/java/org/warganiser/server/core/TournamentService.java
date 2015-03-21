@@ -8,6 +8,8 @@ public interface TournamentService {
 
 	public Tournament getTournament(Long id) throws TournamentException;
 
+	public Tournament updateTournament(Tournament tournament) throws TournamentException;
+
 	public List<Tournament> listTournaments();
 
 }

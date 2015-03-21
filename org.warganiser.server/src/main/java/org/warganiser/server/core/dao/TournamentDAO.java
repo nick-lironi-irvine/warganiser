@@ -37,4 +37,8 @@ public class TournamentDAO {
 		return em.createQuery("from Tournament", Tournament.class).getResultList();
 	}
 
+	public Tournament updateTournament(Tournament tournament) {
+		em.persist(tournament);
+		return tournament;
+	}
 }

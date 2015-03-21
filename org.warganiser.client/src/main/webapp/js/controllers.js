@@ -7,6 +7,7 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
     function($scope, $location, tournamentService) {
         $scope.tournament = {};
 
+        /* Create a new tournament with the provided name*/
         $scope.create = function(tournament) {
 
             var promise = tournamentService.create(tournament).$promise;
@@ -17,6 +18,20 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
                 $location.path('/warganiser/' + tournament.id);
             }, function(errorDTO) {
                 //TODO on error, display the error messages and stay on this page
+                alert('failed');
+            });
+
+        };
+
+        /* Update a tournament*/
+        $scope.update = function(tournament) {
+
+            var promise = tournamentService.update(tournament).$promise;
+
+            promise.then(function(tournament) {
+                $scope.tournament = tournament;
+            }, function(errorDTO) {
+                //TODO on error, display the error messages
                 alert('failed');
             });
 

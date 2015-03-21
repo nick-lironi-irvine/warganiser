@@ -35,6 +35,9 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
                 method: 'POST',
                 url: 'service/tournament/:name',
                 params: {name: '@name'}
+            },
+            update: {
+                method:'PUT'
             }
         });
 
@@ -55,6 +58,20 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
     /* Load a tournament by Id */
     tournamentService.load = function(tournamentId) {
         return resource.get({id: tournamentId},
+            function(value, responseHeaders) {
+                //Return the Tournament in the success case
+                return value;
+            },
+            function(httpResponse) {
+                //Return the error response in the error case
+                return httpResponse;
+            }
+        );
+    };
+
+    /* Update a tournament*/
+    tournamentService.update = function(tournament) {
+        return resource.update(tournament,
             function(value, responseHeaders) {
                 //Return the Tournament in the success case
                 return value;
