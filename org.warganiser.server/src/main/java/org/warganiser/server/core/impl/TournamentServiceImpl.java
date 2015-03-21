@@ -33,6 +33,18 @@ public class TournamentServiceImpl implements TournamentService {
 	}
 
 	@Override
+	public Tournament getTournament(Long id) throws TournamentException {
+		if (id == null) {
+			throw new IllegalArgumentException("id cannot be null");
+		}
+		try {
+			return dao.getTournament(id);
+		} catch (PersistenceException e) {
+			throw new TournamentException(e, "Unable to load tournament with id '%s'", id);
+		}
+	}
+
+	@Override
 	public List<Tournament> listTournaments() {
 		return dao.listTournaments();
 	}

@@ -41,6 +41,18 @@ public class TournamentResource {
 	}
 
 	@GET
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("/{id}")
+	public TournamentDto get(@PathParam("id") Long id) throws WarganiserWebException {
+		try {
+			return new TournamentDto(tournamentService.getTournament(id));
+		} catch (TournamentException e) {
+			throw new WarganiserWebException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GET
 	@Produces("application/json")
 	public List<TournamentDto> list() {
 		List<Tournament> tournaments = tournamentService.listTournaments();

@@ -29,6 +29,10 @@ public class TournamentDAO {
 		return tournament;
 	}
 
+	public Tournament getTournament(Long id) {
+		return em.find(Tournament.class, id);
+	}
+
 	public List<Tournament> listTournaments() {
 		return em.createQuery("from Tournament", Tournament.class).getResultList();
 	}

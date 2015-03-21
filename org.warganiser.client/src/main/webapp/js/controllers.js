@@ -14,7 +14,7 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
             promise.then(function(tournament) {
                 //On success, update the tournament in scope and redirect to the tournament editing page
                 $scope.tournament = tournament;
-                $location.path('/warganiser/' + tournament.name);
+                $location.path('/warganiser/' + tournament.id);
             }, function(errorDTO) {
                 //TODO on error, display the error messages and stay on this page
                 alert('failed');
@@ -29,6 +29,6 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
 warganiserControllers.controller('TournamentEditController', ['$scope', '$routeParams', 'tournamentService',
     function($scope, $routeParams, tournamentService) {
 
-        $scope.tournament = tournamentService.load($routeParams.tournamentName);
+        $scope.tournament = tournamentService.load($routeParams.tournamentId);
     }
 ]);

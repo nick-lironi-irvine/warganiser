@@ -15,7 +15,7 @@ warganiserApp.config(['$routeProvider',
                 templateUrl: 'partials/landing.html',
                 controller: 'TournamentController'
             }).
-            when('/warganiser/:tournamentName', {
+            when('/warganiser/:tournamentId', {
                 templateUrl: 'partials/tournament.html',
                 controller: 'TournamentController'
             }).
@@ -30,9 +30,11 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
 
     var tournamentService = {},
     /* resource will POST to the URL, templating the name based on the name property of the object provided as an argument to the functions (e.g create)*/
-        resource = $resource('service/tournament/:name', {name: '@name'}, {
+        resource = $resource('service/tournament/:id', {id: '@id'}, {
             create: {
-                method: 'POST'
+                method: 'POST',
+                url: 'service/tournament/:name',
+                params: {name: '@name'}
             }
         });
 
@@ -50,9 +52,9 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
         );
     };
 
-    /* Load a tournament by name */
-    tournamentService.load = function(tournamentName) {
-        return resource.get({name: tournamentName},
+    /* Load a tournament by Id */
+    tournamentService.load = function(tournamentId) {
+        return resource.get({id: tournamentId},
             function(value, responseHeaders) {
                 //Return the Tournament in the success case
                 return value;
