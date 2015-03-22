@@ -40,6 +40,14 @@ warganiserControllers.controller('TournamentController', ['$scope', '$location',
     }
 ]);
 
+/* Controller for Tournament creation screen*/
+warganiserControllers.controller('TournamentListController', ['$scope', 'tournamentService',
+    function($scope, tournamentService) {
+        /* Load all the tournaments on instantiation*/
+        $scope.tournaments = tournamentService.list();
+    }
+]);
+
 /* Controller for Tournament editing screen*/
 warganiserControllers.controller('TournamentEditController', ['$scope', '$routeParams', 'tournamentService',
     function($scope, $routeParams, tournamentService) {

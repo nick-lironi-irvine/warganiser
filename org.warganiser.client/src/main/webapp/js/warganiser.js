@@ -83,6 +83,20 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
         );
     };
 
+    /* List tournaments*/
+    tournamentService.list = function() {
+        return resource.query({},
+            function(value, responseHeaders) {
+                //Return the Tournament list in the success case
+                return value;
+            },
+            function(httpResponse) {
+                //Return the error response in the error case
+                return httpResponse;
+            }
+        );
+    };
+
     return tournamentService;
 }]);
 

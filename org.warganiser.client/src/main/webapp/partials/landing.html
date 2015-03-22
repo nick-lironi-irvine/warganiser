@@ -2,7 +2,14 @@
     Heading banner goes here
 </div>
 <div>
-    Selection of existing tournament goes here
+    <div class="container-fluid" ng-controller="TournamentListController">
+        <h1>Select Existing</h1>
+        <ol>
+            <li ng-repeat="tournment in tournaments">
+                <span><a href="#/warganiser/{{tournment.id}}">{{tournment.name}}</a></span>
+            </li>
+        </ol>
+    </div>
 </div>
 <div>
     <div class="container-fluid" ng-controller="TournamentController">
