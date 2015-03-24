@@ -25,8 +25,9 @@ public class PlayerServiceImpl implements PlayerService {
 		if (name == null) {
 			throw new IllegalArgumentException("name cannot be null");
 		}
+		Player player = new Player(name);
 		try {
-			return dao.createPlayer(name);
+			return dao.update(player);
 		} catch (PersistenceException e) {
 			throw new PlayerException(e, "Unable to create player with name '%s'", name);
 		}
@@ -38,7 +39,7 @@ public class PlayerServiceImpl implements PlayerService {
 			throw new IllegalArgumentException("id cannot be null");
 		}
 		try {
-			return dao.getPlayer(id);
+			return dao.get(id);
 		} catch (PersistenceException e) {
 			throw new PlayerException(e, "Unable to load player with id '%s'", id);
 		}
@@ -46,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public List<Player> listPlayers() {
-		return dao.listPlayers();
+		return dao.list();
 	}
 
 }

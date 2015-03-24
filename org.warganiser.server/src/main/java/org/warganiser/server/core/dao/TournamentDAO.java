@@ -1,44 +1,16 @@
 package org.warganiser.server.core.dao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
 import org.warganiser.server.core.Tournament;
-
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 
 /**
  * Responsible for the interaction with the persistence store for
  * {@link Tournament} entities.
  */
-public class TournamentDAO {
+public class TournamentDAO extends AbstractDAO<Tournament> {
 
-	EntityManager em;
-
-	@Inject
-	public TournamentDAO(EntityManager em) {
-		this.em = em;
+	@Override
+	protected Class<Tournament> getClazz() {
+		return Tournament.class;
 	}
 
-	@Transactional
-	public Tournament createTournament(String name) {
-		Tournament tournament = new Tournament(name);
-		em.persist(tournament);
-		return tournament;
-	}
-
-	public Tournament getTournament(Long id) {
-		return em.find(Tournament.class, id);
-	}
-
-	public List<Tournament> listTournaments() {
-		return em.createQuery("from Tournament", Tournament.class).getResultList();
-	}
-
-	public Tournament updateTournament(Tournament tournament) {
-		em.persist(tournament);
-		return tournament;
-	}
 }

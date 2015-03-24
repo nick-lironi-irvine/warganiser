@@ -25,8 +25,9 @@ public class TournamentServiceImpl implements TournamentService {
 		if (name == null) {
 			throw new IllegalArgumentException("name cannot be null");
 		}
+		Tournament tournament = new Tournament(name);
 		try {
-			return dao.createTournament(name);
+			return dao.update(tournament);
 		} catch (PersistenceException e) {
 			throw new TournamentException(e, "Unable to create tournament with name '%s'", name);
 		}
@@ -38,7 +39,7 @@ public class TournamentServiceImpl implements TournamentService {
 			throw new IllegalArgumentException("id cannot be null");
 		}
 		try {
-			return dao.getTournament(id);
+			return dao.get(id);
 		} catch (PersistenceException e) {
 			throw new TournamentException(e, "Unable to load tournament with id '%s'", id);
 		}
@@ -50,7 +51,7 @@ public class TournamentServiceImpl implements TournamentService {
 			throw new IllegalArgumentException("tournament cannot be null");
 		}
 		try {
-			return dao.updateTournament(tournament);
+			return dao.update(tournament);
 		} catch (PersistenceException e) {
 			throw new TournamentException(e, "Unable to update tournament with id '%s'", tournament.getId());
 		}
@@ -58,7 +59,7 @@ public class TournamentServiceImpl implements TournamentService {
 
 	@Override
 	public List<Tournament> listTournaments() {
-		return dao.listTournaments();
+		return dao.list();
 	}
 
 }

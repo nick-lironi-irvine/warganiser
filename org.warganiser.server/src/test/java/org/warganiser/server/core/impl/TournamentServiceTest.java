@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -34,10 +34,10 @@ public class TournamentServiceTest {
 	@Before
 	public void beforeTest() {
 		serviceUnderTest = new TournamentServiceImpl(mockDAO);
-		when(mockDAO.createTournament(anyString())).thenAnswer(new Answer<Tournament>() {
+		when(mockDAO.update(any(Tournament.class))).thenAnswer(new Answer<Tournament>() {
 			@Override
 			public Tournament answer(InvocationOnMock invocation) throws Throwable {
-				return new Tournament((String) invocation.getArguments()[0]);
+				return (Tournament) invocation.getArguments()[0];
 			}
 		});
 	}
@@ -52,7 +52,7 @@ public class TournamentServiceTest {
 
 	@Test
 	public void testlistTournament() {
-		when(mockDAO.listTournaments()).thenReturn(Collections.singletonList(mockTournament));
+		when(mockDAO.list()).thenReturn(Collections.singletonList(mockTournament));
 		List<Tournament> createdTournaments = serviceUnderTest.listTournaments();
 		assertThat(createdTournaments, is(notNullValue()));
 		assertThat(createdTournaments.size(), is(equalTo(1)));

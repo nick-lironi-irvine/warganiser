@@ -61,16 +61,20 @@ public class TournamentDAOIntegrationTest {
 	@Before
 	public void setUp() {
 		daoUnderTest = injector.getInstance(TournamentDAO.class);
+		EntityManager entityManager = injector.getInstance(EntityManager.class);
+		entityManager.getTransaction().begin();
 	}
 
 	@After
 	public void tearDown() {
-		/*
-		 * Would be best to ensure the transaction is rolled back after each
-		 * test to keep clean state. There seem to be no hooks in guice-persist
-		 * to support this, so for now just drop the contents
-		 */
+		// Rollback transactions by default.
 		EntityManager entityManager = injector.getInstance(EntityManager.class);
+		entityManager.getTransaction().rollback();
+
+		/*
+		 * Drop the contents even after transaction rollback, as tests may have
+		 * committed additional transactions.
+		 */
 		entityManager.getTransaction().begin();
 		entityManager.createQuery("DELETE FROM Tournament").executeUpdate();
 		entityManager.getTransaction().commit();
@@ -79,7 +83,7 @@ public class TournamentDAOIntegrationTest {
 	@Test
 	public void testCreateTournamentPersistsTournamentWithGivenName() {
 		String tournamentName = "My Tournament Name";
-		Tournament createdTournament = daoUnderTest.createTournament(tournamentName);
+		Tournament createdTournament = daoUnderTest.update(new Tournament(tournamentName));
 		assertThat(createdTournament, is(notNullValue()));
 		assertThat(createdTournament.getId(), is(notNullValue()));
 		assertThat(createdTournament.getName(), is(equalTo(tournamentName)));
@@ -89,12 +93,12 @@ public class TournamentDAOIntegrationTest {
 	public void testListTournamentsReturnsAllTournaments() {
 		String tournamentName = "My Tournament Name";
 		String tournamentName2 = tournamentName + "2";
-		Tournament createdTournament = daoUnderTest.createTournament(tournamentName);
+		Tournament createdTournament = daoUnderTest.update(new Tournament(tournamentName));
 		assertThat(createdTournament, is(notNullValue()));
-		Tournament createdTournament2 = daoUnderTest.createTournament(tournamentName2);
+		Tournament createdTournament2 = daoUnderTest.update(new Tournament(tournamentName2));
 		assertThat(createdTournament2, is(notNullValue()));
 
-		List<Tournament> tournaments = daoUnderTest.listTournaments();
+		List<Tournament> tournaments = daoUnderTest.list();
 		assertThat(tournaments, is(notNullValue()));
 		assertThat(tournaments.size(), equalTo(2));
 		assertThat(tournaments, contains(createdTournament, createdTournament2));
@@ -105,7 +109,9 @@ public class TournamentDAOIntegrationTest {
 		expectedException.expect(PersistenceException.class);
 		// FIXME this is a terrible test
 		String tournamentName = "My Tournament Name";
-		daoUnderTest.createTournament(tournamentName);
-		daoUnderTest.createTournament(tournamentName);
+		Tournament t1 = new Tournament(tournamentName);
+		Tournament t2 = new Tournament(tournamentName);
+		daoUnderTest.update(t1);
+		daoUnderTest.update(t2);
 	}
 }
