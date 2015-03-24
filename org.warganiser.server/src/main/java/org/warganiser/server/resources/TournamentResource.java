@@ -34,7 +34,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	@Transactional
+	@Transactional(rollbackOn = { WarganiserWebException.class })
 	public TournamentDto create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			return new TournamentDto(tournamentService.createTournament(name));
@@ -59,7 +59,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{id}")
-	@Transactional
+	@Transactional(rollbackOn = { WarganiserWebException.class })
 	public TournamentDto update(@PathParam("id") Long id, TournamentDto tournamentDto) throws WarganiserWebException {
 		try {
 			Tournament tournament = tournamentService.getTournament(id);
