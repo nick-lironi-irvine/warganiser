@@ -100,5 +100,27 @@ warganiserApp.factory('tournamentService', ['$resource', function($resource) {
     return tournamentService;
 }]);
 
+/* Service for Players*/
+warganiserApp.factory('playerService', ['$resource', function($resource) {
+
+    var playerService = {},
+    /* resource will POST to the URL, templating the name based on the name property of the object provided as an argument to the functions (e.g create)*/
+        resource = $resource('service/players/:id', {id: '@id'}, {});
 
 
+    /* List players*/
+    playerService.list = function() {
+        return resource.query({},
+            function(value, responseHeaders) {
+                //Return the Player list in the success case
+                return value;
+            },
+            function(httpResponse) {
+                //Return the error response in the error case
+                return httpResponse;
+            }
+        );
+    };
+
+    return playerService;
+}]);

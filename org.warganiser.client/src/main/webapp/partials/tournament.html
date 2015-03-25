@@ -1,14 +1,24 @@
 <div class="container-fluid" ng-controller="TournamentEditController">
     <h1>{{tournament.name}}</h1>
-    <form role="form" novalidate>
-        <div class="form-group">
-            <label for="inputName">Name</label>
-            <input type="text" class="form-control" id="inputName" ng-model="tournament.name" required>
-        </div>
-        <div class="form-group">
-            <label for="inputPoints">Points</label>
-            <input type="number" class="form-control" id="inputPoints" ng-model="tournament.points" required>
-        </div>
-        <button type="button" ng-click="update(tournament)" class="btn btn-primary btn-default">Update</button>
-    </form>
+    <div>
+        <form role="form" novalidate>
+            <div class="form-group">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" ng-model="tournament.name" required>
+            </div>
+            <div class="form-group">
+                <label for="inputPoints">Points</label>
+                <input type="number" class="form-control" id="inputPoints" ng-model="tournament.points" required>
+            </div>
+            <button type="button" ng-click="update(tournament)" class="btn btn-primary btn-default">Update</button>
+        </form>
+    </div>
+    <div ng-controller="PlayerController">
+        <h1>Players</h1>
+        <ol>
+            <li ng-repeat="player in players">
+                <span>{{player.name}}</span>
+            </li>
+        </ol>
+    </div>
 </div>

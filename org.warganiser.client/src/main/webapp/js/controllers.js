@@ -51,7 +51,15 @@ warganiserControllers.controller('TournamentListController', ['$scope', 'tournam
 /* Controller for Tournament editing screen*/
 warganiserControllers.controller('TournamentEditController', ['$scope', '$routeParams', 'tournamentService',
     function($scope, $routeParams, tournamentService) {
-
+        //Load the tournaments to be edited on init
         $scope.tournament = tournamentService.load($routeParams.tournamentId);
+    }
+]);
+
+/* Controller for associating Players with a Tournament*/
+warganiserControllers.controller('PlayerController', ['$scope', 'playerService',
+    function($scope, playerService) {
+        //Load all the players on init
+        $scope.players = playerService.list();
     }
 ]);

@@ -19,7 +19,7 @@ import org.warganiser.server.resources.dto.PlayerDto;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 
-@Path("/player")
+@Path("/players")
 public class PlayerResource {
 
 	private final PlayerService playerService;
