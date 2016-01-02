@@ -1,8 +1,10 @@
 Warganiser
 ==========
 
-# Build
+# Setup
 
-Build the project with
+Setup the project with
 
-    $ mvn install
+    $ npm install
+
+Then see the SETUP.md file in each top level directory
