@@ -1,13 +1,10 @@
-package org.warganiser.server.core.impl;
+package org.warganiser.server.tournament;
 
 import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-import org.warganiser.server.core.Tournament;
-import org.warganiser.server.core.TournamentException;
-import org.warganiser.server.core.TournamentService;
-import org.warganiser.server.core.dao.TournamentDAO;
+import org.warganiser.server.tournament.persistence.TournamentDAO;
 
 import com.google.inject.Inject;
 

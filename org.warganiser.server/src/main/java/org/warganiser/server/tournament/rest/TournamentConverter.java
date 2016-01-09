@@ -1,7 +1,6 @@
-package org.warganiser.server.resources;
+package org.warganiser.server.tournament.rest;
 
-import org.warganiser.server.core.Tournament;
-import org.warganiser.server.resources.dto.TournamentDto;
+import org.warganiser.server.tournament.Tournament;
 
 public class TournamentConverter {
 

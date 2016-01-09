@@ -1,6 +1,6 @@
-package org.warganiser.server.resources.dto;
+package org.warganiser.server.player.rest;
 
-import org.warganiser.server.core.Player;
+import org.warganiser.server.player.Player;
 
 public class PlayerDto {
 

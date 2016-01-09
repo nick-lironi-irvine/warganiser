@@ -1,13 +1,10 @@
-package org.warganiser.server.core.impl;
+package org.warganiser.server.player;
 
 import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-import org.warganiser.server.core.Player;
-import org.warganiser.server.core.PlayerException;
-import org.warganiser.server.core.PlayerService;
-import org.warganiser.server.core.dao.PlayerDAO;
+import org.warganiser.server.player.persistence.PlayerDAO;
 
 import com.google.inject.Inject;
 

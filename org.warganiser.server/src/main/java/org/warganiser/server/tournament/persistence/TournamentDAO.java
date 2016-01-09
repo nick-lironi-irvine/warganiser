@@ -1,6 +1,7 @@
-package org.warganiser.server.core.dao;
+package org.warganiser.server.tournament.persistence;
 
-import org.warganiser.server.core.Tournament;
+import org.warganiser.server.core.dao.AbstractDAO;
+import org.warganiser.server.tournament.Tournament;
 
 /**
  * Responsible for the interaction with the persistence store for

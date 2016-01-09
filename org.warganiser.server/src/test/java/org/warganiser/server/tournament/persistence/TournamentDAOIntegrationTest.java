@@ -1,4 +1,4 @@
-package org.warganiser.server.core.dao;
+package org.warganiser.server.tournament.persistence;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,7 +19,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.warganiser.server.core.Tournament;
+import org.warganiser.server.tournament.Tournament;
+import org.warganiser.server.tournament.persistence.TournamentDAO;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

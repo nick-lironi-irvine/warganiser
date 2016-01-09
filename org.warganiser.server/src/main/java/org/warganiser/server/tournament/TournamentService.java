@@ -1,4 +1,4 @@
-package org.warganiser.server.core;
+package org.warganiser.server.tournament;
 
 import java.util.List;
 

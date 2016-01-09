@@ -1,4 +1,4 @@
-package org.warganiser.server.core.impl;
+package org.warganiser.server.tournament;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -17,10 +17,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.warganiser.server.core.Tournament;
-import org.warganiser.server.core.TournamentException;
-import org.warganiser.server.core.TournamentService;
-import org.warganiser.server.core.dao.TournamentDAO;
+import org.warganiser.server.tournament.persistence.TournamentDAO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TournamentServiceTest {

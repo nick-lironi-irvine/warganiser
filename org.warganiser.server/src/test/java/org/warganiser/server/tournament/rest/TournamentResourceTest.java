@@ -1,4 +1,4 @@
-package org.warganiser.server.resources;
+package org.warganiser.server.tournament.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -15,10 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.warganiser.server.core.Tournament;
-import org.warganiser.server.core.TournamentException;
-import org.warganiser.server.core.TournamentService;
-import org.warganiser.server.resources.dto.TournamentDto;
+import org.warganiser.server.resources.WarganiserWebException;
+import org.warganiser.server.tournament.Tournament;
+import org.warganiser.server.tournament.TournamentException;
+import org.warganiser.server.tournament.TournamentService;
 
 @RunWith(org.mockito.runners.MockitoJUnitRunner.class)
 public class TournamentResourceTest {

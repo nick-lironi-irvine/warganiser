@@ -1,6 +1,7 @@
-package org.warganiser.server.core.dao;
+package org.warganiser.server.player.persistence;
 
-import org.warganiser.server.core.Player;
+import org.warganiser.server.core.dao.AbstractDAO;
+import org.warganiser.server.player.Player;
 
 /**
  * Responsible for the interaction with the persistence store for {@link Player}

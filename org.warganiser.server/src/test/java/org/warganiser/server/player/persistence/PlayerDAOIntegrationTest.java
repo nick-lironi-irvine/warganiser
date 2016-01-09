@@ -1,4 +1,4 @@
-package org.warganiser.server.core.dao;
+package org.warganiser.server.player.persistence;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -15,7 +15,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.warganiser.server.core.Player;
+import org.warganiser.server.core.dao.AbstractDAOIntegration;
+import org.warganiser.server.player.Player;
 
 public class PlayerDAOIntegrationTest extends AbstractDAOIntegration {
 

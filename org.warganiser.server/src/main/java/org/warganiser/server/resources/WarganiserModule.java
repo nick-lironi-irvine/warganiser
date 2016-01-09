@@ -1,9 +1,9 @@
 package org.warganiser.server.resources;
 
-import org.warganiser.server.core.PlayerService;
-import org.warganiser.server.core.TournamentService;
-import org.warganiser.server.core.impl.PlayerServiceImpl;
-import org.warganiser.server.core.impl.TournamentServiceImpl;
+import org.warganiser.server.player.PlayerService;
+import org.warganiser.server.player.PlayerServiceImpl;
+import org.warganiser.server.tournament.TournamentService;
+import org.warganiser.server.tournament.TournamentServiceImpl;
 
 import com.google.inject.AbstractModule;
 

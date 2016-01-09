@@ -1,4 +1,4 @@
-package org.warganiser.server.core;
+package org.warganiser.server.player;
 
 import java.util.List;
 

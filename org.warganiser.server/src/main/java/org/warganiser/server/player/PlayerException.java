@@ -1,4 +1,4 @@
-package org.warganiser.server.core;
+package org.warganiser.server.player;
 
 public class PlayerException extends Exception {
 	private static final long serialVersionUID = 1L;

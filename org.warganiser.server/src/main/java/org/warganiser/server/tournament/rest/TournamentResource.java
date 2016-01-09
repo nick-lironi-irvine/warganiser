@@ -1,4 +1,4 @@
-package org.warganiser.server.resources;
+package org.warganiser.server.tournament.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response.Status;
 
-import org.warganiser.server.core.Tournament;
-import org.warganiser.server.core.TournamentException;
-import org.warganiser.server.core.TournamentService;
-import org.warganiser.server.resources.dto.TournamentDto;
+import org.warganiser.server.resources.WarganiserWebException;
+import org.warganiser.server.tournament.Tournament;
+import org.warganiser.server.tournament.TournamentException;
+import org.warganiser.server.tournament.TournamentService;
 
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;

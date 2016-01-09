@@ -26,7 +26,7 @@ public class GuiceConfig extends GuiceServletContextListener {
 				// Set init params for Jersey
 				Map<String, String> params = new HashMap<>();
 				// Resources and Providers must go in this package
-				params.put("com.sun.jersey.config.property.packages", "org.warganiser.server.resources");
+				params.put("com.sun.jersey.config.property.packages", "org.warganiser.server.resources, org.warganiser.server.tournament.rest, org.warganiser.server.player.rest");
 				params.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
 
 				/*

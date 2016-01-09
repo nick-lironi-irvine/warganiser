@@ -1,4 +1,4 @@
-package org.warganiser.server.resources;
+package org.warganiser.server.player.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response.Status;
 
-import org.warganiser.server.core.Player;
-import org.warganiser.server.core.PlayerException;
-import org.warganiser.server.core.PlayerService;
-import org.warganiser.server.resources.dto.PlayerDto;
+import org.warganiser.server.player.Player;
+import org.warganiser.server.player.PlayerException;
+import org.warganiser.server.player.PlayerService;
+import org.warganiser.server.resources.WarganiserWebException;
 
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;

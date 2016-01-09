@@ -7,8 +7,8 @@
 		
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		
-		<class>org.warganiser.server.core.Tournament</class>
-		<class>org.warganiser.server.core.Player</class>
+		<class>org.warganiser.server.tournament.Tournament</class>
+		<class>org.warganiser.server.player.Player</class>
 		
 		<properties>
 		

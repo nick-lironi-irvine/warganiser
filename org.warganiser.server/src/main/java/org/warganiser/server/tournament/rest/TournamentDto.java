@@ -1,6 +1,6 @@
-package org.warganiser.server.resources.dto;
+package org.warganiser.server.tournament.rest;
 
-import org.warganiser.server.core.Tournament;
+import org.warganiser.server.tournament.Tournament;
 
 public class TournamentDto {
 
