@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -19,8 +20,10 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.warganiser.server.participant.Participant;
+import org.warganiser.server.player.Player;
+import org.warganiser.server.player.persistence.PlayerDAO;
 import org.warganiser.server.tournament.Tournament;
-import org.warganiser.server.tournament.persistence.TournamentDAO;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -33,9 +36,11 @@ public class TournamentDAOIntegrationTest {
 	private static Injector injector;
 	private static PersistService persistService;
 	private TournamentDAO daoUnderTest;
+	private PlayerDAO playerDaoUnderTest;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
+	private EntityManager entityManager;
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -62,14 +67,14 @@ public class TournamentDAOIntegrationTest {
 	@Before
 	public void setUp() {
 		daoUnderTest = injector.getInstance(TournamentDAO.class);
-		EntityManager entityManager = injector.getInstance(EntityManager.class);
+		playerDaoUnderTest = injector.getInstance(PlayerDAO.class);
+		entityManager = injector.getInstance(EntityManager.class);
 		entityManager.getTransaction().begin();
 	}
 
 	@After
 	public void tearDown() {
 		// Rollback transactions by default.
-		EntityManager entityManager = injector.getInstance(EntityManager.class);
 		entityManager.getTransaction().rollback();
 
 		/*
@@ -77,7 +82,9 @@ public class TournamentDAOIntegrationTest {
 		 * committed additional transactions.
 		 */
 		entityManager.getTransaction().begin();
+		entityManager.createQuery("DELETE FROM Participant").executeUpdate();
 		entityManager.createQuery("DELETE FROM Tournament").executeUpdate();
+		entityManager.createQuery("DELETE FROM Player").executeUpdate();
 		entityManager.getTransaction().commit();
 	}
 
@@ -114,5 +121,33 @@ public class TournamentDAOIntegrationTest {
 		Tournament t2 = new Tournament(tournamentName);
 		daoUnderTest.update(t1);
 		daoUnderTest.update(t2);
+	}
+	
+	@Test
+	public void testAddingAnExistingPlayerToATournamentPersistsANewParticipant() {
+		//Given a Tournament exists with no participants, and a Player exists
+		String playerName = "A Player";
+		Player player = playerDaoUnderTest.update(new Player(playerName));
+		assertThat(player, is(notNullValue()));
+
+		String tournamentName = "My Tournament Name";
+		Tournament tournament = daoUnderTest.update(new Tournament(tournamentName));
+		assertThat(tournament, is(notNullValue()));
+		assertThat(tournament.getParticipants(), is(emptyCollectionOf(Participant.class)));
+		
+		this.entityManager.getTransaction().commit();
+		this.entityManager.getTransaction().begin();
+
+		//When a participant is added
+		tournament.addParticipant(player);
+		daoUnderTest.update(tournament);
+		
+		this.entityManager.getTransaction().commit();
+
+		//Then a Participant exists
+		this.entityManager.getTransaction().begin();
+		Tournament modifiedTournament = daoUnderTest.get(tournament.getId());
+		assertThat(modifiedTournament, is(notNullValue()));
+		assertThat(modifiedTournament.getParticipants(), contains(new Participant(tournament, player)));
 	}
 }

@@ -1,10 +1,21 @@
 package org.warganiser.server.tournament;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.warganiser.server.participant.Participant;
+import org.warganiser.server.player.Player;
 
 @Entity
 @Table(name = "Tournament")
@@ -19,6 +30,9 @@ public class Tournament {
 
 	@Column
 	private Integer points;
+	
+	@OneToMany(mappedBy = "tournament", orphanRemoval = true, fetch = FetchType.LAZY, cascade = (CascadeType.PERSIST))
+	private List<Participant> participants = new ArrayList<>();
 
 	public Tournament() {
 		// Default for Hibernate
@@ -51,6 +65,36 @@ public class Tournament {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	public List<Participant> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<Participant> participants) {
+		this.participants = participants;
+	}
+
+	public void addParticipant(Player player) {
+		this.participants.add(new Participant(this, player));
+	}
+
+	@Override
+	public boolean equals(final Object other) {
+		if (!(other instanceof Tournament))
+			return false;
+		Tournament castOther = (Tournament) other;
+		return new EqualsBuilder().append(id, castOther.id).isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(id).toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("id", id).append("name", name).toString();
 	}
 
 }

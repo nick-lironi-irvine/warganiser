@@ -33,7 +33,7 @@ public class PlayerResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	@Transactional(rollbackOn = { WarganiserWebException.class })
+	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public PlayerDto create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			return new PlayerDto(playerService.createPlayer(name));

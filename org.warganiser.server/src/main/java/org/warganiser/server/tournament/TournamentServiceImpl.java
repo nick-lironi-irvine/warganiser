@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import org.warganiser.server.participant.Participant;
+import org.warganiser.server.player.Player;
+import org.warganiser.server.player.PlayerException;
+import org.warganiser.server.player.PlayerService;
 import org.warganiser.server.tournament.persistence.TournamentDAO;
 
 import com.google.inject.Inject;
@@ -11,10 +15,12 @@ import com.google.inject.Inject;
 public class TournamentServiceImpl implements TournamentService {
 
 	private final TournamentDAO dao;
+	private final PlayerService playerService;
 
 	@Inject
-	public TournamentServiceImpl(TournamentDAO dao) {
+	public TournamentServiceImpl(TournamentDAO dao, PlayerService playerService) {
 		this.dao = dao;
+		this.playerService = playerService;
 	}
 
 	@Override
@@ -57,6 +63,31 @@ public class TournamentServiceImpl implements TournamentService {
 	@Override
 	public List<Tournament> listTournaments() {
 		return dao.list();
+	}
+
+	@Override
+	public Tournament addPlayer(Long tournamentId, Long playerId) throws TournamentException {
+		if (tournamentId == null) {
+			throw new IllegalArgumentException("'tournamentId' must not be null");
+		}
+		if (playerId == null) {
+			throw new IllegalArgumentException("'playerId' must not be null");
+		}
+		Tournament tournament = this.dao.get(tournamentId);
+		if (tournament == null) {
+			throw new IllegalArgumentException(String.format("No such Tournament with Id '%s'", tournamentId));
+		}
+		Player player;
+		try {
+			player = this.playerService.getPlayer(playerId);
+		} catch (PlayerException e) {
+			throw new TournamentException(e, "Unable to add Player '%s' to Tournament '%s' due to an error loading the player", playerId, tournamentId);
+		}
+		if (player == null) {
+			throw new IllegalArgumentException(String.format("No such Player with Id '%s'", playerId));
+		}
+		tournament.addParticipant(player);
+		return dao.update(tournament);
 	}
 
 }

@@ -1,5 +1,9 @@
 package org.warganiser.server.tournament.rest;
 
+import java.util.List;
+
+import org.warganiser.server.participant.rest.ParticipantConverter;
+import org.warganiser.server.participant.rest.ParticipantDto;
 import org.warganiser.server.tournament.Tournament;
 
 public class TournamentDto {
@@ -37,6 +41,10 @@ public class TournamentDto {
 
 	public void setPoints(Integer points) {
 		tournament.setPoints(points);
+	}
+	
+	public List<ParticipantDto> getParticipants(){
+		return ParticipantConverter.convert(tournament.getParticipants());
 	}
 
 }

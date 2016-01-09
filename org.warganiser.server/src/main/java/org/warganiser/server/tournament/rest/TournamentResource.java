@@ -34,7 +34,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	@Transactional(rollbackOn = { WarganiserWebException.class })
+	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public TournamentDto create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			return new TournamentDto(tournamentService.createTournament(name));
@@ -59,7 +59,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{id}")
-	@Transactional(rollbackOn = { WarganiserWebException.class })
+	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public TournamentDto update(@PathParam("id") Long id, TournamentDto tournamentDto) throws WarganiserWebException {
 		try {
 			Tournament tournament = tournamentService.getTournament(id);
@@ -81,5 +81,20 @@ public class TournamentResource {
 		}
 		return result;
 	}
+	
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("/{tournamentId}/{playerId}")
+	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	public TournamentDto addParticpant(@PathParam("tournamentId") Long tournamentId, @PathParam("playerId") Long playerId) throws WarganiserWebException {
+		try {
+			Tournament updatedTournament = this.tournamentService.addPlayer(tournamentId, playerId);
+			return new TournamentDto(updatedTournament);
+		} catch (TournamentException e) {
+			throw new WarganiserWebException(e, Status.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 
 }
