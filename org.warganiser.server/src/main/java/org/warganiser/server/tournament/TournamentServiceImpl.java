@@ -67,15 +67,8 @@ public class TournamentServiceImpl implements TournamentService {
 
 	@Override
 	public Tournament addPlayer(Long tournamentId, Long playerId) throws TournamentException {
-		if (tournamentId == null) {
-			throw new IllegalArgumentException("'tournamentId' must not be null");
-		}
 		if (playerId == null) {
 			throw new IllegalArgumentException("'playerId' must not be null");
-		}
-		Tournament tournament = this.dao.get(tournamentId);
-		if (tournament == null) {
-			throw new IllegalArgumentException(String.format("No such Tournament with Id '%s'", tournamentId));
 		}
 		Player player;
 		try {
@@ -86,9 +79,30 @@ public class TournamentServiceImpl implements TournamentService {
 		if (player == null) {
 			throw new IllegalArgumentException(String.format("No such Player with Id '%s'", playerId));
 		}
-		tournament.addParticipant(player);
-		return dao.update(tournament);
+		return addPlayer(tournamentId, player);
+
 	}
+
+	@Override
+	public Tournament addPlayer(Long tournamentId, Player player) throws TournamentException {
+		if (tournamentId == null) {
+			throw new IllegalArgumentException("'tournamentId' must not be null");
+		}
+		Tournament updatedTournament;
+		try {
+			Tournament tournament = this.dao.get(tournamentId);
+			if (tournament == null) {
+				throw new IllegalArgumentException(String.format("No such Tournament with Id '%s'", tournamentId));
+			}
+			Player updatedPlayer = playerService.updatePlayer(player);
+			tournament.addParticipant(updatedPlayer);
+			updatedTournament = dao.update(tournament);
+		} catch (PlayerException e) {
+			throw new TournamentException(e, "Error when creating Player '%s' to add to Tournament '%s'", player.getName(), tournamentId);
+		}
+		return updatedTournament;
+	}
+
 
 	@Override
 	public Set<Player> listPotentialPlayers(Long tournamentId) throws TournamentException {
@@ -101,9 +115,9 @@ public class TournamentServiceImpl implements TournamentService {
 			throw new IllegalArgumentException(String.format("No such Tournament with Id '%s'", tournamentId));
 		}
 		Set<Player> candidatePlayers = this.playerService.getPlayers();
-		
+
 		tournament.getParticipants().stream().forEach(p -> candidatePlayers.remove(p.getPlayer()));
-		
+
 		return candidatePlayers;
 	}
 

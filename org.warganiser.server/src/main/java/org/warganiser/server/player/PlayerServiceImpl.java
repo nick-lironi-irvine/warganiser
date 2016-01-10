@@ -48,4 +48,9 @@ public class PlayerServiceImpl implements PlayerService {
 		return new HashSet<Player>(dao.list());
 	}
 
+	@Override
+	public Player updatePlayer(Player player) throws PlayerException {
+		return dao.update(player);
+	}
+
 }

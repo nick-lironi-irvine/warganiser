@@ -8,6 +8,8 @@ public interface PlayerService {
 
 	Player getPlayer(Long id) throws PlayerException;
 
+	Player updatePlayer(Player player) throws PlayerException;
+
 	Set<Player> getPlayers();
 
 }

@@ -17,6 +17,8 @@ public interface TournamentService {
 	
 	public Tournament addPlayer(Long tournamentId, Long playerId) throws TournamentException;
 	
+	public Tournament addPlayer(Long tournamentId, Player player) throws TournamentException;
+	
 	public Set<Player> listPotentialPlayers(Long tournamentId) throws TournamentException;
 
 }

@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -69,20 +70,21 @@ public class TournamentServiceTest {
 		assertThat(createdTournaments, is(notNullValue()));
 		assertThat(createdTournaments.size(), is(equalTo(1)));
 	}
-	
-	@Test
-	public void testAddingAPlayerToATournamentCreatesANewParticpiant() throws TournamentException, PlayerException {
-		//Given
-		Long tournamentId = 1L; 
-		Long playerId = 2L;
-		
-		Tournament tournament = new Tournament();
-		
-		given(mockTournamentDAO.get(tournamentId)).willReturn(tournament );
-		given(mockPlayerService.getPlayer(playerId)).willReturn(mockPlayer);
 
-		Participant expectedParticipant = new Participant(mockTournament, mockPlayer);
-		
+	@Test
+	public void testAddingPlayerToTournamentCreatesNewParticpiant() throws TournamentException, PlayerException {
+		//Given
+		Long tournamentId = 1L;
+		Long playerId = 2L;
+
+		Tournament tournament = new Tournament();
+
+		given(mockTournamentDAO.get(tournamentId)).willReturn(tournament);
+		given(mockPlayerService.getPlayer(playerId)).willReturn(mockPlayer);
+		given(mockPlayerService.updatePlayer(mockPlayer)).willReturn(mockPlayer);
+
+		Participant expectedParticipant = new Participant(tournament, mockPlayer);
+
 		//When
 		Tournament updatedTournament = serviceUnderTest.addPlayer(tournamentId, playerId);
 
@@ -90,24 +92,44 @@ public class TournamentServiceTest {
 		assertThat(updatedTournament.getParticipants(), is(notNullValue()));
 		assertThat(updatedTournament.getParticipants(), contains(expectedParticipant));
 	}
-	
+
+	@Test
+	public void testAddingNewUnsavedPlayerToTournamentAsParticpiantPersistsNewPlayer() throws TournamentException, PlayerException {
+		//Given
+		Long tournamentId = 1L;
+		Tournament tournament = new Tournament();
+
+		given(mockTournamentDAO.get(tournamentId)).willReturn(tournament);
+		given(mockPlayerService.updatePlayer(mockPlayer)).willReturn(mockPlayer);
+
+		Participant expectedParticipant = new Participant(tournament, mockPlayer);
+
+		//When
+		Tournament updatedTournament = serviceUnderTest.addPlayer(tournamentId, mockPlayer);
+
+		//Then
+		assertThat(updatedTournament.getParticipants(), is(notNullValue()));
+		assertThat(updatedTournament.getParticipants(), contains(expectedParticipant));
+		verify(mockPlayerService).updatePlayer(mockPlayer);
+	}
+
 	@Test
 	public void testListPotentialPlayersIncludesAllPlayersWhenTournamentHasNoParticipants() throws TournamentException {
 		//Given
 		Long tournamentId = 42L;
 		Set<Player> allPlayers = Collections.singleton(new Player("player"));
-		
+
 		given(mockTournamentDAO.get(tournamentId)).willReturn(mockTournament);
 		given(mockPlayerService.getPlayers()).willReturn(allPlayers);
 
 		//When
 		Set<Player> potentialPlayers = serviceUnderTest.listPotentialPlayers(tournamentId);
-		
+
 		//Then
 		assertThat(potentialPlayers, is(notNullValue()));
 		assertThat(potentialPlayers, is(equalTo(allPlayers)));
 	}
-	
+
 	@Test
 	public void testListPotentialPlayersExcludesCurrentParticpantsWhenTournamentHasParticipants() throws TournamentException {
 		//Given
@@ -118,18 +140,18 @@ public class TournamentServiceTest {
 		allPlayers.add(new Player("player 2"));
 		allPlayers.add(new Player("player 3"));
 		Participant currentParticipant = new Participant(mockTournament, participatingPlayer);
-		
+
 		given(mockTournamentDAO.get(tournamentId)).willReturn(mockTournament);
 		given(mockTournament.getParticipants()).willReturn(Collections.singleton(currentParticipant));
 		given(mockPlayerService.getPlayers()).willReturn(allPlayers);
-		
+
 		//When
 		Set<Player> potentialPlayers = serviceUnderTest.listPotentialPlayers(tournamentId);
-		
+
 		//Then
 		SetView<Player> expectedAvailablePlayers = Sets.difference(allPlayers, Collections.singleton(participatingPlayer));
 		assertThat(potentialPlayers, is(notNullValue()));
 		assertThat(potentialPlayers, is(equalTo(expectedAvailablePlayers)));
 	}
-	
+
 }
