@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.warganiser.server.resources.ListResourceWrapper;
+import org.warganiser.server.resources.SingleResourceWrapper;
 import org.warganiser.server.resources.WarganiserWebException;
 import org.warganiser.server.tournament.Tournament;
 import org.warganiser.server.tournament.TournamentException;
@@ -42,7 +44,7 @@ public class TournamentResourceTest {
 
 		when(mockTournamentService.createTournament(anyString())).thenReturn(mockTournament);
 
-		TournamentDto createdTournament = resourceUnderTest.create(name);
+		SingleResourceWrapper<TournamentDto> createdTournament = resourceUnderTest.create(name);
 		assertThat(createdTournament, is(notNullValue()));
 
 		verify(mockTournamentService).createTournament(name);
@@ -54,15 +56,15 @@ public class TournamentResourceTest {
 		tournaments.add(mockTournament);
 		when(mockTournamentService.listTournaments()).thenReturn(tournaments);
 
-		List<TournamentDto> result = resourceUnderTest.list();
-		assertThat(result.size(), equalTo(1));
+		ListResourceWrapper<TournamentDto> result = resourceUnderTest.list();
+		assertThat(result.getData().size(), equalTo(1));
 	}
 
 	@Test
 	public void testListTournamentsWithEmptyResult() {
 		when(mockTournamentService.listTournaments()).thenReturn(new ArrayList<Tournament>());
 
-		List<TournamentDto> result = resourceUnderTest.list();
-		assertThat(result.size(), equalTo(0));
+		ListResourceWrapper<TournamentDto> result = resourceUnderTest.list();
+		assertThat(result.getData().size(), equalTo(0));
 	}
 }
