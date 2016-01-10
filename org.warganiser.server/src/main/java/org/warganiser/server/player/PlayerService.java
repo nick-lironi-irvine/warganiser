@@ -1,6 +1,6 @@
 package org.warganiser.server.player;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PlayerService {
 
@@ -8,6 +8,6 @@ public interface PlayerService {
 
 	Player getPlayer(Long id) throws PlayerException;
 
-	List<Player> listPlayers();
+	Set<Player> getPlayers();
 
 }

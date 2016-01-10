@@ -1,6 +1,7 @@
 package org.warganiser.server.player;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.PersistenceException;
 
@@ -43,8 +44,8 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public List<Player> listPlayers() {
-		return dao.list();
+	public Set<Player> getPlayers() {
+		return new HashSet<Player>(dao.list());
 	}
 
 }

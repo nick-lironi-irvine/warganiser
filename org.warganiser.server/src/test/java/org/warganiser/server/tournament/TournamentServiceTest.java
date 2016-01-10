@@ -10,7 +10,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +26,9 @@ import org.warganiser.server.player.Player;
 import org.warganiser.server.player.PlayerException;
 import org.warganiser.server.player.PlayerService;
 import org.warganiser.server.tournament.persistence.TournamentDAO;
+
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TournamentServiceTest {
@@ -84,6 +89,47 @@ public class TournamentServiceTest {
 		//Then
 		assertThat(updatedTournament.getParticipants(), is(notNullValue()));
 		assertThat(updatedTournament.getParticipants(), contains(expectedParticipant));
+	}
+	
+	@Test
+	public void testListPotentialPlayersIncludesAllPlayersWhenTournamentHasNoParticipants() throws TournamentException {
+		//Given
+		Long tournamentId = 42L;
+		Set<Player> allPlayers = Collections.singleton(new Player("player"));
+		
+		given(mockTournamentDAO.get(tournamentId)).willReturn(mockTournament);
+		given(mockPlayerService.getPlayers()).willReturn(allPlayers);
+
+		//When
+		Set<Player> potentialPlayers = serviceUnderTest.listPotentialPlayers(tournamentId);
+		
+		//Then
+		assertThat(potentialPlayers, is(notNullValue()));
+		assertThat(potentialPlayers, is(equalTo(allPlayers)));
+	}
+	
+	@Test
+	public void testListPotentialPlayersExcludesCurrentParticpantsWhenTournamentHasParticipants() throws TournamentException {
+		//Given
+		Long tournamentId = 42L;
+		Set<Player> allPlayers = new HashSet<>();
+		Player participatingPlayer = new Player("player 1");
+		allPlayers.add(participatingPlayer);
+		allPlayers.add(new Player("player 2"));
+		allPlayers.add(new Player("player 3"));
+		Participant currentParticipant = new Participant(mockTournament, participatingPlayer);
+		
+		given(mockTournamentDAO.get(tournamentId)).willReturn(mockTournament);
+		given(mockTournament.getParticipants()).willReturn(Collections.singleton(currentParticipant));
+		given(mockPlayerService.getPlayers()).willReturn(allPlayers);
+		
+		//When
+		Set<Player> potentialPlayers = serviceUnderTest.listPotentialPlayers(tournamentId);
+		
+		//Then
+		SetView<Player> expectedAvailablePlayers = Sets.difference(allPlayers, Collections.singleton(participatingPlayer));
+		assertThat(potentialPlayers, is(notNullValue()));
+		assertThat(potentialPlayers, is(equalTo(expectedAvailablePlayers)));
 	}
 	
 }

@@ -1,10 +1,10 @@
 package org.warganiser.server.tournament;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.PersistenceException;
 
-import org.warganiser.server.participant.Participant;
 import org.warganiser.server.player.Player;
 import org.warganiser.server.player.PlayerException;
 import org.warganiser.server.player.PlayerService;
@@ -88,6 +88,23 @@ public class TournamentServiceImpl implements TournamentService {
 		}
 		tournament.addParticipant(player);
 		return dao.update(tournament);
+	}
+
+	@Override
+	public Set<Player> listPotentialPlayers(Long tournamentId) throws TournamentException {
+		//TODO could probably implement this at the DB level, rather than here in memory
+		if (tournamentId == null) {
+			throw new IllegalArgumentException("'tournamentId' must not be null");
+		}
+		Tournament tournament = this.dao.get(tournamentId);
+		if (tournament == null) {
+			throw new IllegalArgumentException(String.format("No such Tournament with Id '%s'", tournamentId));
+		}
+		Set<Player> candidatePlayers = this.playerService.getPlayers();
+		
+		tournament.getParticipants().stream().forEach(p -> candidatePlayers.remove(p.getPlayer()));
+		
+		return candidatePlayers;
 	}
 
 }

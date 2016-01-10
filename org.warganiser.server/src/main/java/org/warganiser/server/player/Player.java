@@ -5,8 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
@@ -20,7 +21,7 @@ public class Player {
 	@GeneratedValue
 	private Long id;
 
-	@Column
+	@Column(nullable = false, unique = true)
 	private String name;
 
 	public Player() {
@@ -53,12 +54,12 @@ public class Player {
 		if (!(other instanceof Player))
 			return false;
 		Player castOther = (Player) other;
-		return new EqualsBuilder().append(id, castOther.id).isEquals();
+		return new EqualsBuilder().append(name, castOther.name).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).toHashCode();
+		return new HashCodeBuilder().append(name).toHashCode();
 	}
 
 	@Override

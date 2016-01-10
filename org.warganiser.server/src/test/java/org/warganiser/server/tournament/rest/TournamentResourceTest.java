@@ -56,7 +56,7 @@ public class TournamentResourceTest {
 		tournaments.add(mockTournament);
 		when(mockTournamentService.listTournaments()).thenReturn(tournaments);
 
-		ListResourceWrapper<TournamentDto> result = resourceUnderTest.list();
+		ListResourceWrapper<TournamentSummaryDto> result = resourceUnderTest.list();
 		assertThat(result.getData().size(), equalTo(1));
 	}
 
@@ -64,7 +64,7 @@ public class TournamentResourceTest {
 	public void testListTournamentsWithEmptyResult() {
 		when(mockTournamentService.listTournaments()).thenReturn(new ArrayList<Tournament>());
 
-		ListResourceWrapper<TournamentDto> result = resourceUnderTest.list();
+		ListResourceWrapper<TournamentSummaryDto> result = resourceUnderTest.list();
 		assertThat(result.getData().size(), equalTo(0));
 	}
 }

@@ -1,6 +1,7 @@
 package org.warganiser.server.tournament;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ public class Tournament {
 	private Integer points;
 	
 	@OneToMany(mappedBy = "tournament", orphanRemoval = true, fetch = FetchType.LAZY, cascade = (CascadeType.PERSIST))
-	private List<Participant> participants = new ArrayList<>();
+	private Set<Participant> participants = new HashSet<>();
 
 	public Tournament() {
 		// Default for Hibernate
@@ -67,11 +68,11 @@ public class Tournament {
 		this.points = points;
 	}
 
-	public List<Participant> getParticipants() {
+	public Set<Participant> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(List<Participant> participants) {
+	public void setParticipants(Set<Participant> participants) {
 		this.participants = participants;
 	}
 

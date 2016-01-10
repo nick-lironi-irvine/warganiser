@@ -5,12 +5,17 @@ import java.util.List;
 
 public class ListResourceWrapper<T> extends AbstractResourceWrapper<T>{
 	
-	private List<SingleResourceWrapper<T>> data;
+	private List<SingleResourceWrapper<T>> data = new ArrayList<>();
 
+	public ListResourceWrapper(){
+	}
+	
 	public ListResourceWrapper(String selfUrl){
-		super();
-		this.data = new ArrayList<>();
 		addLink(SELF, selfUrl);
+	}
+	
+	public ListResourceWrapper(String selfUrl, Object... args){
+		addLink(SELF, String.format(selfUrl, args));
 	}
 
 	public List<SingleResourceWrapper<T>> getData() {

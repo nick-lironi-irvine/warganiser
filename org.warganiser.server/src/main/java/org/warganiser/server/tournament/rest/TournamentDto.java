@@ -1,38 +1,19 @@
 package org.warganiser.server.tournament.rest;
 
-import java.util.List;
-
 import org.warganiser.server.participant.rest.ParticipantConverter;
 import org.warganiser.server.participant.rest.ParticipantDto;
+import org.warganiser.server.resources.ListResourceWrapper;
 import org.warganiser.server.tournament.Tournament;
 
-public class TournamentDto {
-
-	private final Tournament tournament;
+public class TournamentDto extends TournamentSummaryDto {
 
 	/* For Jackson deserialisation */
 	public TournamentDto() {
-		this.tournament = new Tournament();
+		super();
 	}
 
 	public TournamentDto(Tournament tournament) {
-		this.tournament = tournament;
-	}
-
-	public Long getId() {
-		return tournament.getId();
-	}
-
-	public void setId(Long id) {
-		tournament.setId(id);
-	}
-
-	public String getName() {
-		return tournament.getName();
-	}
-
-	public void setName(String name) {
-		tournament.setName(name);
+		super(tournament);
 	}
 
 	public Integer getPoints() {
@@ -43,7 +24,7 @@ public class TournamentDto {
 		tournament.setPoints(points);
 	}
 	
-	public List<ParticipantDto> getParticipants(){
+	public ListResourceWrapper<ParticipantDto> getParticipants(){
 		return ParticipantConverter.convert(tournament.getParticipants());
 	}
 
