@@ -12,6 +12,9 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class WarganiserExceptionMapper implements ExceptionMapper<WarganiserWebException> {
 
+	//FIXME this is registered via JAX-RS annotaions, not Guice annotations, so actually has no effect
+
+
 	/**
 	 * Wrapper that gives a useful set of error data back to the client
 	 */
@@ -33,6 +36,7 @@ public class WarganiserExceptionMapper implements ExceptionMapper<WarganiserWebE
 
 	}
 
+	@Override
 	public Response toResponse(WarganiserWebException ex) {
 		return Response.status(ex.getStatus()).entity(new ErrorMessage(ex)).type(MediaType.APPLICATION_JSON).build();
 	}

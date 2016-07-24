@@ -15,6 +15,9 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import org.warganiser.server.participant.Participant;
 import org.warganiser.server.player.Player;
 
@@ -31,7 +34,21 @@ public class Tournament {
 
 	@Column
 	private Integer points;
-	
+
+	@Columns(columns={
+			@Column(name="startDateTime"),
+			@Column(name="startDateTimeOffset")
+	})
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTimeWithZone")
+	private DateTime startDateTime;
+
+	@Columns(columns={
+			@Column(name="endDateTime"),
+			@Column(name="endDateTimeOffset")
+	})
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTimeWithZone")
+	private DateTime endDateTime;
+
 	@OneToMany(mappedBy = "tournament", orphanRemoval = true, fetch = FetchType.LAZY, cascade = (CascadeType.PERSIST))
 	private Set<Participant> participants = new HashSet<>();
 
@@ -80,17 +97,33 @@ public class Tournament {
 		this.participants.add(new Participant(this, player));
 	}
 
+	public DateTime getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(DateTime startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public DateTime getEndDateTime() {
+		return endDateTime;
+	}
+
+	public void setEndDateTime(DateTime endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
 	@Override
 	public boolean equals(final Object other) {
 		if (!(other instanceof Tournament))
 			return false;
 		Tournament castOther = (Tournament) other;
-		return new EqualsBuilder().append(id, castOther.id).isEquals();
+		return new EqualsBuilder().append(name, castOther.name).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).toHashCode();
+		return new HashCodeBuilder().append(name).toHashCode();
 	}
 
 	@Override

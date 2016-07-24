@@ -30,5 +30,4 @@ public class TournamentSummaryDto {
 	public void setName(String name) {
 		tournament.setName(name);
 	}
-
 }
