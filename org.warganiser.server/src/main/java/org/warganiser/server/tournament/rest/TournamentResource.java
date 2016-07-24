@@ -147,7 +147,7 @@ public class TournamentResource {
 	}
 
 	private SingleResourceWrapper<TournamentDto> createAndPopulateResponseWrapperWithLinks(Tournament tournament){
-		SingleResourceWrapper<TournamentDto> response = new SingleResourceWrapper<TournamentDto>(new TournamentDto(tournament));
+		SingleResourceWrapper<TournamentDto> response = new SingleResourceWrapper<>(new TournamentDto(tournament));
 		addBaseLinks(tournament, response);
 		response.addLink("candidatePlayers", "%s/%s/players", ROOT_PATH, tournament.getId());
 		response.addLink("addNewPlayerAsParticipant", "%s/%s/participant", ROOT_PATH, tournament.getId());
@@ -155,7 +155,7 @@ public class TournamentResource {
 	}
 
 	private SingleResourceWrapper<TournamentSummaryDto> createAndPopulateSummaryResponseWrapperWithLinks(Tournament tournament){
-		SingleResourceWrapper<TournamentSummaryDto> response = new SingleResourceWrapper<TournamentSummaryDto>(new TournamentSummaryDto(tournament));
+		SingleResourceWrapper<TournamentSummaryDto> response = new SingleResourceWrapper<>(new TournamentSummaryDto(tournament));
 		addBaseLinks(tournament, response);
 		return response;
 	}

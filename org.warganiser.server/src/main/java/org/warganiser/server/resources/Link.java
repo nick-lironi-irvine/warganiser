@@ -5,33 +5,33 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.annotate.JsonRawValue;
-import org.codehaus.jackson.annotate.JsonValue;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Represents JSON-API style HATEOAS links
  */
 public class Link {
-	
+
 	private String url;
 	private Map<String, Object> meta;
 
 	public Link(final String url){
 		this(url, new HashMap<>());
 	}
-	
+
 	public Link(final String url, final Map<String,Object> meta){
 		this.url = url;
 		this.meta = meta;
 	}
-	
+
 	public Link(final String url, final Object... args){
 		this(String.format(url,args));
 	}
-	
+
 	public Link addMeta(String key, Object value){
 		this.meta.put(key, value);
 		return this;
@@ -44,7 +44,7 @@ public class Link {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
 	public Map<String, Object> getMeta() {
 		return meta;
 	}
@@ -52,7 +52,7 @@ public class Link {
 	public void setMeta(Map<String, Object> meta) {
 		this.meta = meta;
 	}
-	
+
 	/**
 	 * Conditionally format the response depending on the content of the meta attribute
 	 */
@@ -60,7 +60,7 @@ public class Link {
 	@JsonRawValue
 	public String toJson() throws IOException{
 		StringWriter writer = new StringWriter();
-		JsonGenerator jsonGenerator = new JsonFactory().createJsonGenerator(writer).setCodec(new ObjectMapper());
+		JsonGenerator jsonGenerator = new JsonFactory().createGenerator(writer).setCodec(new ObjectMapper());
 		if (meta.isEmpty()) {
 			jsonGenerator.writeString(url);
 		} else {
