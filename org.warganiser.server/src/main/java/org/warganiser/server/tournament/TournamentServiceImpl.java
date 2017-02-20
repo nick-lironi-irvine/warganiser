@@ -3,15 +3,16 @@ package org.warganiser.server.tournament;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
+import org.jvnet.hk2.annotations.Service;
 import org.warganiser.server.player.Player;
 import org.warganiser.server.player.PlayerException;
 import org.warganiser.server.player.PlayerService;
 import org.warganiser.server.tournament.persistence.TournamentDAO;
 
-import com.google.inject.Inject;
-
+@Service
 public class TournamentServiceImpl implements TournamentService {
 
 	private final TournamentDAO dao;

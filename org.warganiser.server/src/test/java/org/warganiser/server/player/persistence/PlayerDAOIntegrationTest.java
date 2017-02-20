@@ -8,8 +8,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,7 +25,8 @@ public class PlayerDAOIntegrationTest extends AbstractDAOIntegration {
 
 	@Before
 	public void setUp() {
-		daoUnderTest = injector.getInstance(PlayerDAO.class);
+		daoUnderTest = new PlayerDAO();
+		daoUnderTest.setEntityManager(entityManager);
 	}
 
 	@After
@@ -37,7 +36,6 @@ public class PlayerDAOIntegrationTest extends AbstractDAOIntegration {
 		 * committed additional transactions.
 		 */
 		rollbackTransactionIfActive();
-		EntityManager entityManager = injector.getInstance(EntityManager.class);
 		entityManager.getTransaction().begin();
 		entityManager.createQuery("DELETE FROM Player").executeUpdate();
 		entityManager.getTransaction().commit();

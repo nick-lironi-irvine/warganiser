@@ -3,12 +3,13 @@ package org.warganiser.server.player;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
+import org.jvnet.hk2.annotations.Service;
 import org.warganiser.server.player.persistence.PlayerDAO;
 
-import com.google.inject.Inject;
-
+@Service
 public class PlayerServiceImpl implements PlayerService {
 
 	private final PlayerDAO dao;
@@ -45,7 +46,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public Set<Player> getPlayers() {
-		return new HashSet<Player>(dao.list());
+		return new HashSet<>(dao.list());
 	}
 
 	@Override

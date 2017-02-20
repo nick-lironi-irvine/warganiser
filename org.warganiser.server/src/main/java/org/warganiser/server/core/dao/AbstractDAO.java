@@ -2,34 +2,39 @@ package org.warganiser.server.core.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.google.inject.Inject;
+import org.jvnet.hk2.annotations.Service;
 
+@Service
 public abstract class AbstractDAO<T extends Object> {
 
-	@Inject
-	EntityManager em;
+	EntityManager entityManager;
 
 	private Class<T> clazz;
 
-	// Default constructor required for Guice
 	public AbstractDAO() {
 		this.clazz = getClazz();
+	}
+
+	@Inject
+	public void setEntityManager(EntityManager em){
+		this.entityManager = em;
 	}
 
 	protected abstract Class<T> getClazz();
 
 	public T get(Long id) {
-		return em.find(clazz, id);
+		return entityManager.find(clazz, id);
 	}
 
 	public List<T> list() {
-		return em.createQuery(String.format("from %s", clazz.getSimpleName()), clazz).getResultList();
+		return entityManager.createQuery(String.format("from %s", clazz.getSimpleName()), clazz).getResultList();
 	}
 
 	public T update(T entity) {
-		em.persist(entity);
+		entityManager.persist(entity);
 		return entity;
 	}
 }

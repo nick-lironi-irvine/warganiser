@@ -5,6 +5,7 @@ import static org.warganiser.server.resources.AbstractResourceWrapper.CREATE;
 
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,8 +21,6 @@ import org.warganiser.server.resources.ListResourceWrapper;
 import org.warganiser.server.resources.SingleResourceWrapper;
 import org.warganiser.server.resources.WarganiserWebException;
 
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 
 @Path("/players")
 public class PlayerResource {
@@ -38,7 +37,7 @@ public class PlayerResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	//@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public SingleResourceWrapper<PlayerDto> create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			Player createdPlayer = playerService.createPlayer(name);
@@ -64,7 +63,7 @@ public class PlayerResource {
 	@Produces("application/json")
 	public ListResourceWrapper<PlayerDto> list() {
 		Set<Player> players = playerService.getPlayers();
-		ListResourceWrapper<PlayerDto> result = new ListResourceWrapper<PlayerDto>(ROOT_PATH);
+		ListResourceWrapper<PlayerDto> result = new ListResourceWrapper<>(ROOT_PATH);
 		result.addLink(CREATE, ROOT_PATH);
 		for (Player player : players) {
 			result.addData(createAndPopulateResponseWrapperWithLinks(player));

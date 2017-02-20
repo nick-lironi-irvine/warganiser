@@ -15,20 +15,12 @@
 	    <load-on-startup>0</load-on-startup>
 	</servlet>
 	
-	<!-- Minimal web.xml to bootstrap Guice. All the real config goes on inside GuiceConfig class. -->
-	<listener>
-		<display-name>GuiceConfig</display-name>
-		<listener-class>org.warganiser.server.servlet.GuiceConfig</listener-class>
-	</listener>
-	
-	<filter>
-		<filter-name>guiceFilter</filter-name>
-		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>guiceFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<servlet>
+        <servlet-name>org.warganiser.server.resources.WarganiserApplicationConfig</servlet-name>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>org.warganiser.server.resources.WarganiserApplicationConfig</servlet-name>
+        <url-pattern>/resources</url-pattern>
+    </servlet-mapping>
 
 </web-app>

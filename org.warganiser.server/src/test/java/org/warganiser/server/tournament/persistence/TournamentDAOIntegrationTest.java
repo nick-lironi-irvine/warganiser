@@ -8,68 +8,35 @@ import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
-import java.util.Properties;
 
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.warganiser.server.core.dao.AbstractDAOIntegration;
 import org.warganiser.server.participant.Participant;
 import org.warganiser.server.player.Player;
 import org.warganiser.server.player.persistence.PlayerDAO;
 import org.warganiser.server.tournament.Tournament;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.persist.PersistService;
-import com.google.inject.persist.jpa.JpaPersistModule;
+public class TournamentDAOIntegrationTest extends AbstractDAOIntegration{
 
-public class TournamentDAOIntegrationTest {
-
-	private static Injector injector;
-	private static PersistService persistService;
 	private TournamentDAO daoUnderTest;
 	private PlayerDAO playerDaoUnderTest;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
-	private EntityManager entityManager;
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		/*
-		 * Use the same properties as the real DB, but override the connection
-		 * to use in memory for speed.
-		 */
-		Properties properties = new Properties();
-		properties.put("hibernate.connection.url", "jdbc:derby:memory:warganiserTestDB;create=true");
-		properties.put("hibernate.hbm2ddl.auto", "create");
-		Module testPersistenceProperties = new JpaPersistModule("org.warganiser").properties(properties);
-		injector = Guice.createInjector(testPersistenceProperties);
-		persistService = injector.getInstance(PersistService.class);
-		persistService.start();
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		if (persistService != null) {
-			persistService.stop();
-		}
-	}
 
 	@Before
 	public void setUp() {
-		daoUnderTest = injector.getInstance(TournamentDAO.class);
-		playerDaoUnderTest = injector.getInstance(PlayerDAO.class);
-		entityManager = injector.getInstance(EntityManager.class);
-		entityManager.getTransaction().begin();
+		daoUnderTest = new TournamentDAO();
+		daoUnderTest.setEntityManager(entityManager);
+
+		playerDaoUnderTest = new PlayerDAO();
+		playerDaoUnderTest.setEntityManager(entityManager);
 	}
 
 	@After
@@ -122,7 +89,7 @@ public class TournamentDAOIntegrationTest {
 		daoUnderTest.update(t1);
 		daoUnderTest.update(t2);
 	}
-	
+
 	@Test
 	public void testAddingAnExistingPlayerToATournamentPersistsANewParticipant() {
 		//Given a Tournament exists with no participants, and a Player exists
@@ -134,14 +101,14 @@ public class TournamentDAOIntegrationTest {
 		Tournament tournament = daoUnderTest.update(new Tournament(tournamentName));
 		assertThat(tournament, is(notNullValue()));
 		assertThat(tournament.getParticipants(), is(emptyCollectionOf(Participant.class)));
-		
+
 		this.entityManager.getTransaction().commit();
 		this.entityManager.getTransaction().begin();
 
 		//When a participant is added
 		tournament.addParticipant(player);
 		daoUnderTest.update(tournament);
-		
+
 		this.entityManager.getTransaction().commit();
 
 		//Then a Participant exists

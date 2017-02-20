@@ -1,9 +1,11 @@
 package org.warganiser.server.player.rest;
 
+import org.jvnet.hk2.annotations.Service;
 import org.warganiser.server.player.Player;
 import org.warganiser.server.resources.AbstractResourceWrapper;
 import org.warganiser.server.resources.SingleResourceWrapper;
 
+@Service
 public class PlayerConverter {
 
 	public PlayerConverter(){

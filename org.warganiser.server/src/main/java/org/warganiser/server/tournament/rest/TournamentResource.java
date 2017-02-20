@@ -5,6 +5,7 @@ import static org.warganiser.server.resources.AbstractResourceWrapper.PARENT;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,9 +26,6 @@ import org.warganiser.server.tournament.Tournament;
 import org.warganiser.server.tournament.TournamentException;
 import org.warganiser.server.tournament.TournamentService;
 
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
-
 @Path("/tournament")
 public class TournamentResource {
 
@@ -46,7 +44,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{name}")
-	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	//@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public SingleResourceWrapper<TournamentDto> create(@PathParam("name") String name) throws WarganiserWebException {
 		try {
 			return createAndPopulateResponseWrapperWithLinks(tournamentService.createTournament(name));
@@ -71,7 +69,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{id}")
-	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	//@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public SingleResourceWrapper<TournamentDto> update(@PathParam("id") Long id, TournamentDto tournamentDto) throws WarganiserWebException {
 		try {
 			Tournament tournament = tournamentService.getTournament(id);
@@ -118,7 +116,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{tournamentId}/participant/{playerId}")
-	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	//@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public SingleResourceWrapper<TournamentDto> addParticpant(@PathParam("tournamentId") Long tournamentId, @PathParam("playerId") Long playerId) throws WarganiserWebException {
 		try {
 			Tournament updatedTournament = this.tournamentService.addPlayer(tournamentId, playerId);
@@ -132,7 +130,7 @@ public class TournamentResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("/{tournamentId}/participant")
-	@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
+	//@Transactional(rollbackOn = { WarganiserWebException.class, RuntimeException.class})
 	public SingleResourceWrapper<TournamentDto> addParticpant(@PathParam("tournamentId") Long tournamentId, PlayerDto playerDto) throws WarganiserWebException {
 		try {
 			if (playerDto.getId() != null) {
